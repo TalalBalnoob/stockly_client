@@ -1,52 +1,51 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
-import { updateProduct, getProduct } from '../../services/api/products'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import type { Product } from '../../types'
 import { toast } from 'react-toastify'
+import { createProduct } from '../../services/api/products'
+import type { Product } from '../../types'
 
-export const Route = createFileRoute('/products/$productId')({
+export const Route = createFileRoute('/products/new')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	const { productId } = useParams({ from: '/products/$productId' })
 	const [product, setProduct] = useState<Product | null>()
+	const navigate = useNavigate()
 
 	const mutation = useMutation({
-		mutationKey: ['updateProduct'],
-		mutationFn: updateProduct,
-	})
-
-	const query = useQuery({
-		queryKey: ['product', productId],
-		queryFn: getProduct,
+		mutationKey: ['createProduct'],
+		mutationFn: createProduct,
 	})
 
 	useEffect(() => {
-		if (query.isSuccess && query.data) {
-			setProduct(query.data)
-		}
+		setProduct({
+			id: 0,
+			name: '',
+			description: '',
+			quantity: 0,
+			price: 0,
+			isActive: true,
+			imageUrl: null,
+		})
+	}, [])
 
+	useEffect(() => {
 		if (mutation.isSuccess && mutation.data) {
 			setProduct(mutation.data)
 		}
-	}, [query.isSuccess, query.data, mutation.isSuccess, mutation.data])
+	}, [mutation.isSuccess, mutation.data])
 
-	if (query.isError) {
-		return (
-			<div>
-				<h1>{query.error.message}</h1>
-			</div>
-		)
-	}
-
-	const handleUpdateProduct = () => {
+	const handleCreateProduct = () => {
 		if (!product) return
 
 		mutation.mutate(product, {
 			onSuccess: () => {
-				toast.success('Product has been updated', { theme: 'colored' })
+				toast.success('Product has been Created', { theme: 'colored' })
+				navigate({ to: '/products' })
+			},
+			onError: (err) => {
+				console.log(err.message)
 			},
 		})
 	}
@@ -117,8 +116,8 @@ function RouteComponent() {
 				<button
 					type='button'
 					className='btn-primary btn'
-					onClick={handleUpdateProduct}>
-					Save Changes
+					onClick={handleCreateProduct}>
+					Save Product
 				</button>
 			</div>
 		</div>

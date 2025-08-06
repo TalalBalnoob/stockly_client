@@ -27,3 +27,17 @@ export const updateProduct = async (product: Product) => {
 
 	return res.data
 }
+
+export const createProduct = async (product: Product) => {
+	const res = await api.post<Product>(`/Product`, product)
+	if (res.status != 201) throw new Error('Something went wrong')
+
+	return res.data
+}
+
+export const deleteProduct = async (productId: number) => {
+	const res = await api.delete(`/product/${productId}`)
+	if (res.status != 204) throw new Error('Something went wrong')
+
+	return res.data
+}

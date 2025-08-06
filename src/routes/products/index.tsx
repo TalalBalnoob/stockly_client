@@ -1,13 +1,35 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { getProducts } from '../../services/api/products'
+import { deleteProduct, getProducts } from '../../services/api/products'
+import { confirm } from '../../components/ConfirmDialog'
+import { toast } from 'react-toastify'
 
 export const Route = createFileRoute('/products/')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
 	const query = useQuery({ queryKey: ['products'], queryFn: getProducts })
+	const mutation = useMutation({
+		mutationKey: ['deleteProduct'],
+		mutationFn: deleteProduct,
+	})
+
+	const handleDelete = async (id: number) => {
+		const result = await confirm({
+			message: 'Are you sure you want to delete this item?',
+		})
+
+		if (result) {
+			mutation.mutate(id, {
+				onSuccess: () => {
+					toast.success('Product has been deleted')
+					queryClient.invalidateQueries({ queryKey: ['products'] })
+				},
+			})
+		}
+	}
 
 	return (
 		<div className=''>
@@ -38,6 +60,11 @@ function RouteComponent() {
 											Edit
 										</button>
 									</Link>
+									<button
+										onClick={() => handleDelete(product.id)}
+										className='btn btn-outline btn-secondary'>
+										Delete
+									</button>
 								</td>
 							</tr>
 						))}

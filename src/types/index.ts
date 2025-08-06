@@ -4,7 +4,7 @@ export type Product = {
 	description: string
 	price: number
 	quantity: number
-	imageUrl: string
+	imageUrl: string | null
 	isActive: boolean
-	createdAt: string
+	createdAt?: string
 }
