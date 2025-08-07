@@ -8,3 +8,9 @@ export type Product = {
 	isActive: boolean
 	createdAt?: string
 }
+
+export type StockChange = {
+	quantity: number
+	reason: string
+	productId: number
+}

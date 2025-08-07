@@ -1,16 +1,16 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { updateProduct, getProduct } from '../../services/api/products'
+import { updateProduct, getProduct } from '../../../services/api/products'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import type { Product } from '../../types'
+import type { Product } from '../../../types'
 import { toast } from 'react-toastify'
 
-export const Route = createFileRoute('/products/$productId')({
+export const Route = createFileRoute('/products/$productId/')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	const { productId } = useParams({ from: '/products/$productId' })
+	const { productId } = useParams({ from: '/products/$productId/' })
 	const [product, setProduct] = useState<Product | null>()
 
 	const mutation = useMutation({

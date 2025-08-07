@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { deleteProduct, getProducts } from '../../services/api/products'
 import { confirm } from '../../components/ConfirmDialog'
 import { toast } from 'react-toastify'
@@ -9,7 +9,8 @@ export const Route = createFileRoute('/products/')({
 })
 
 function RouteComponent() {
-	const queryClient = useQueryClient()
+	const navigate = useNavigate()
+
 	const query = useQuery({ queryKey: ['products'], queryFn: getProducts })
 	const mutation = useMutation({
 		mutationKey: ['deleteProduct'],
@@ -25,7 +26,7 @@ function RouteComponent() {
 			mutation.mutate(id, {
 				onSuccess: () => {
 					toast.success('Product has been deleted')
-					queryClient.invalidateQueries({ queryKey: ['products'] })
+					navigate({ to: '/products' })
 				},
 			})
 		}
@@ -53,18 +54,27 @@ function RouteComponent() {
 								<td>{product.price}$</td>
 								<td>{product.quantity > 0 ? product.quantity : 'Sold out'}</td>
 								<td>
-									<Link
-										to={'/products/$productId'}
-										params={{ productId: product.id.toString() }}>
-										<button className='btn btn-outline btn-secondary'>
-											Edit
+									<div className='flex gap-2'>
+										<Link
+											to={'/products/$productId'}
+											params={{ productId: product.id.toString() }}>
+											<button className='btn btn-outline btn-secondary'>
+												Edit
+											</button>
+										</Link>
+										<button
+											onClick={() => handleDelete(product.id)}
+											className='btn btn-outline btn-warning'>
+											Delete
 										</button>
-									</Link>
-									<button
-										onClick={() => handleDelete(product.id)}
-										className='btn btn-outline btn-secondary'>
-										Delete
-									</button>
+										<Link
+											to={'/products/$productId/stock'}
+											params={{ productId: product.id.toString() }}>
+											<button className='btn btn-outline btn-info'>
+												Set Stock
+											</button>
+										</Link>
+									</div>
 								</td>
 							</tr>
 						))}

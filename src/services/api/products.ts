@@ -1,4 +1,4 @@
-import type { Product } from '../../types'
+import type { Product, StockChange } from '../../types'
 import api from '../axios'
 
 export const getProducts = async () => {
@@ -38,6 +38,16 @@ export const createProduct = async (product: Product) => {
 export const deleteProduct = async (productId: number) => {
 	const res = await api.delete(`/product/${productId}`)
 	if (res.status != 204) throw new Error('Something went wrong')
+
+	return res.data
+}
+
+export const updateProductStock = async (stockChange: StockChange) => {
+	const res = await api.post(`/stock/set/${stockChange.productId}`, {
+		quantity: stockChange.quantity,
+		reason: stockChange.reason,
+	})
+	if (res.status != 200) throw new Error('Something went wrong')
 
 	return res.data
 }
