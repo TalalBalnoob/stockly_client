@@ -21,6 +21,11 @@ export const Route = createRootRoute({
 					className='[&.active]:font-bold'>
 					Products
 				</Link>
+				<Link
+					to='/orders'
+					className='[&.active]:font-bold'>
+					Orders
+				</Link>
 			</div>
 			<hr />
 			<section className='container mx-auto p-4'>
