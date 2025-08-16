@@ -7,7 +7,6 @@ import { useAtom } from 'jotai'
 
 type propsType = {
 	item: OrderItem
-	deleteItemFromList: (id: number) => void
 }
 
 const OrderItemCard = ({ item }: propsType) => {

@@ -21,13 +21,20 @@ export type Order = {
 	customer_Contact: string
 	items: OrderItem[]
 	totel_amount: number
-	status: string
-	createdAt: string
+	status: statusOptions
+	createdAt?: string
 }
+
+export type statusOptions =
+	| 'approved'
+	| 'shipped'
+	| 'delivered'
+	| 'cancelled'
+	| 'returned'
 
 export type OrderItem = {
 	id: number
-	orderId: number
+	// orderId?: number
 	productId: number
 	quantity: number
 	unitPrice: number

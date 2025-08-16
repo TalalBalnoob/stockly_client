@@ -27,7 +27,6 @@ function RouteComponent() {
 					productId: product.id,
 					quantity: 1,
 					unitPrice: product.price,
-					orderId: 0,
 					id: 0,
 				},
 			]
