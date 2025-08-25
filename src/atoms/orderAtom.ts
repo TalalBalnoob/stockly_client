@@ -8,7 +8,7 @@ export const initial: Order = {
 	customer_Contact: '',
 	status: 'approved',
 	items: [],
-	totel_amount: 0,
+	total_amount: 0,
 }
 
 export const orderAtom = atom<Order>(initial)

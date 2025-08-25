@@ -20,17 +20,25 @@ export type Order = {
 	customer_Name: string
 	customer_Contact: string
 	items: OrderItem[]
-	totel_amount: number
-	status: statusOptions
+	total_amount: number
+	status: StatusOptions
 	createdAt?: string
 }
 
-export type statusOptions =
+export type StatusOptions =
 	| 'approved'
 	| 'shipped'
 	| 'delivered'
 	| 'cancelled'
 	| 'returned'
+
+export const statusOptions: StatusOptions[] = [
+	'approved',
+	'shipped',
+	'delivered',
+	'cancelled',
+	'returned',
+]
 
 export type OrderItem = {
 	id: number

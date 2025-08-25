@@ -14,3 +14,37 @@ export const createOrder = async (newOrder: Order) => {
 
 	return res.data
 }
+
+export const setOrderState = async ({
+	id,
+	value,
+}: {
+	id: number
+	value: string
+}) => {
+	let res: Axios.AxiosXHR<unknown>
+
+	switch (value) {
+		case 'cancelled':
+			res = await api.put(`order/cancel/${id}`)
+			break
+		case 'shipped':
+			res = await api.put(`order/ship/${id}`)
+			break
+		case 'delivered':
+			res = await api.put(`order/deliver/${id}`)
+			break
+		case 'returned':
+			res = await api.put(`order/return/${id}`)
+			break
+	}
+
+	return res!.data
+}
+
+export const deleteOrder = async (id: number) => {
+	const res = await api.delete(`/Order/${id}`)
+	if (res.status !== 204) throw new Error('Failed to delete order')
+
+	return res.data
+}

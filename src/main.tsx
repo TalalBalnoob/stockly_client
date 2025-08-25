@@ -5,6 +5,8 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { DevTools } from 'jotai-devtools'
 import 'jotai-devtools/styles.css'
+import { StyledEngineProvider } from '@mui/material/styles'
+import GlobalStyles from '@mui/material/GlobalStyles'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -24,10 +26,14 @@ const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
-			<ReactQueryDevtools initialIsOpen={false} />
-			<DevTools />
-		</QueryClientProvider>
+		<StyledEngineProvider enableCssLayer>
+			<GlobalStyles styles='@layer theme, base, mui, components, utilities;' />
+			{/* Your app */}
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+				<ReactQueryDevtools initialIsOpen={false} />
+				<DevTools />
+			</QueryClientProvider>
+		</StyledEngineProvider>
 	</StrictMode>,
 )
