@@ -7,6 +7,10 @@ import { DevTools } from 'jotai-devtools'
 import 'jotai-devtools/styles.css'
 import { StyledEngineProvider } from '@mui/material/styles'
 import GlobalStyles from '@mui/material/GlobalStyles'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
