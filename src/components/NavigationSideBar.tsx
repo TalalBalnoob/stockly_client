@@ -25,7 +25,7 @@ const NavigationSideBar = () => {
 				</Link>
 				<Link
 					className='w-full'
-					to='.'>
+					to='/orders'>
 					<Item
 						text='Orders'
 						icon={<Receipt />}
