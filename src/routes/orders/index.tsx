@@ -1,10 +1,15 @@
 import Paper from '@mui/material/Paper'
 import { createFileRoute } from '@tanstack/react-router'
-import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import {
+	DataGrid,
+	type GridColDef,
+	type GridRenderCellParams,
+} from '@mui/x-data-grid'
 import { useQuery } from '@tanstack/react-query'
 import { getOrders } from '../../services/api/orders'
 import { useEffect, useState } from 'react'
 import type { Order } from '../../types'
+import Chip from '@mui/material/Chip'
 
 export const Route = createFileRoute('/orders/')({
 	component: RouteComponent,
@@ -12,11 +17,30 @@ export const Route = createFileRoute('/orders/')({
 
 const columns: GridColDef[] = [
 	{ field: 'id', headerName: 'ID', flex: 0.5 },
-	{ field: 'customer_Name', headerName: 'Customer Name', flex: 2 },
-	{ field: 'customer_Contact', headerName: 'Customer Contact', flex: 2 },
-	{ field: 'totel_amount', headerName: 'Total Amount', flex: 1 },
-	{ field: 'status', headerName: 'Status', flex: 1 },
-	{ field: 'createdAt', headerName: 'Created At', flex: 1 },
+	{ field: 'customer_Name', headerName: 'Customer Name', flex: 1 },
+	{ field: 'customer_Contact', headerName: 'Customer Contact', flex: 1 },
+	{ field: 'total_amount', headerName: 'Total Amount', flex: 1 },
+	{
+		field: 'status',
+		headerName: 'Status',
+		flex: 1,
+		renderCell: (params: GridRenderCellParams) => {
+			if (params.value == null) {
+				return ''
+			}
+			return (
+				<Chip
+					label={params.value}
+					color='primary'
+				/>
+			)
+		},
+	},
+	{
+		field: 'createdAt',
+		headerName: 'Created At',
+		flex: 1,
+	},
 ]
 
 function RouteComponent() {

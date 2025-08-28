@@ -17,7 +17,7 @@ const NavigationSideBar = () => {
 				</Link>
 				<Link
 					className='w-full'
-					to='.'>
+					to='/products'>
 					<Item
 						text='Products'
 						icon={<LocalOffer />}
