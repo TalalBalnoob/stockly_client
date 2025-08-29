@@ -50,7 +50,7 @@ function RouteComponent() {
 
 	return (
 		<>
-			<div className='m-4 flex items-center'>
+			<div className='m-4 flex items-center justify-between'>
 				<Typography
 					className='mr-4'
 					variant='h5'>
@@ -69,7 +69,6 @@ function RouteComponent() {
 
 				<Button
 					variant='contained'
-					className='ml-auto'
 					color='primary'>
 					New Order
 				</Button>
