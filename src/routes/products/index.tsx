@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { useQuery } from '@tanstack/react-query'
 import { useDeferredValue, useMemo, useState } from 'react'
@@ -67,13 +67,15 @@ function RouteComponent() {
 					}}
 				/>
 
-				<Button
-					variant='contained'
-					color='primary'>
-					New Order
-				</Button>
+				<Link to='/products/new'>
+					<Button
+						variant='contained'
+						color='primary'>
+						New Order
+					</Button>
+				</Link>
 			</div>
-			<Paper sx={{ height: '100%', width: '100%' }}>
+			<Paper sx={{ width: '100%' }}>
 				<DataGrid
 					rows={filteredItems}
 					columns={columns}
