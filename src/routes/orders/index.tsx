@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import {
 	DataGrid,
 	type GridColDef,
@@ -7,9 +7,11 @@ import {
 } from '@mui/x-data-grid'
 import { useQuery } from '@tanstack/react-query'
 import { getOrders } from '../../services/api/orders'
-import { useEffect, useState } from 'react'
-import type { Order } from '../../types'
+import { useDeferredValue, useMemo, useState } from 'react'
 import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 export const Route = createFileRoute('/orders/')({
 	component: RouteComponent,
@@ -44,31 +46,64 @@ const columns: GridColDef[] = [
 ]
 
 function RouteComponent() {
-	const [items, setItems] = useState<Order[]>([])
+	const [search, setSearch] = useState('')
 
 	const query = useQuery({
 		queryKey: ['orders'],
 		queryFn: getOrders,
 	})
 
-	useEffect(() => {
-		if (query.data && query.isSuccess) {
-			setItems(query.data)
-		}
-	}, [query.data, query.isSuccess])
+	const deferredSearch = useDeferredValue(search)
 
-	if (query.isLoading) return <div>Loading...</div>
+	const filteredItems = useMemo(() => {
+		const data = query.data ?? []
+		const term = deferredSearch.trim().toLowerCase()
+		if (term === '') return data
+		return data.filter(
+			(item) =>
+				item.customer_Name.toLowerCase().includes(term) ||
+				item.customer_Contact.toLowerCase().includes(term),
+		)
+	}, [query.data, deferredSearch])
 
 	return (
-		<Paper sx={{ height: '100%', width: '100%' }}>
-			<DataGrid
-				rows={items}
-				columns={columns}
-				initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
-				pageSizeOptions={[5, 10]}
-				checkboxSelection
-				sx={{ border: 0 }}
-			/>
-		</Paper>
+		<>
+			<div className='m-4 flex items-center justify-between'>
+				<Typography
+					className='mr-4'
+					variant='h5'>
+					Orders
+				</Typography>
+				<TextField
+					variant='outlined'
+					label='search'
+					size='small'
+					className='w-80'
+					value={search}
+					onChange={(e) => {
+						setSearch(e.target.value)
+					}}
+				/>
+
+				<Link to='/orders/new'>
+					<Button
+						variant='contained'
+						color='primary'>
+						New Order
+					</Button>
+				</Link>
+			</div>
+			<Paper sx={{ width: '100%' }}>
+				<DataGrid
+					rows={filteredItems}
+					columns={columns}
+					initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+					pageSizeOptions={[5, 10]}
+					loading={query.isLoading}
+					checkboxSelection
+					sx={{ border: 0 }}
+				/>
+			</Paper>
+		</>
 	)
 }
