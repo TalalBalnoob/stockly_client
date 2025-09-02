@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
 	{ field: 'description', headerName: 'Description', flex: 1 },
 	{ field: 'price', headerName: 'Price', flex: 1 },
 	{ field: 'quantity', headerName: 'Quantity', flex: 1 },
-	{ field: 'isActive', headerName: 'Status', flex: 1 },
+	{ field: 'isActive', headerName: 'Is Active', flex: 1 },
 ]
 
 function RouteComponent() {
@@ -75,7 +75,7 @@ function RouteComponent() {
 					</Button>
 				</Link>
 			</div>
-			<Paper sx={{ width: '100%' }}>
+			<Paper sx={{ width: '98%', margin: '0 auto' }}>
 				<DataGrid
 					rows={filteredItems}
 					columns={columns}

@@ -11,7 +11,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { toast } from 'react-toastify'
-import { itemsLitsAtom, orderAtom } from '../../../atoms/orderAtom'
+import { initial, itemsLitsAtom, orderAtom } from '../../../atoms/orderAtom'
 import { createOrder } from '../../../services/api/orders'
 import { statusOptions, type Order, type OrderItem } from '../../../types'
 import Select from '@mui/material/Select'
@@ -55,7 +55,8 @@ function RouteComponent() {
 		mutat.mutate(newOrder, {
 			onSuccess: () => {
 				toast.success('New Product Has Been added')
-				navigate({ to: '/products' })
+				setNewOrder(initial)
+				navigate({ to: '/orders' })
 			},
 			onError: () => {
 				toast.error('Something went wrong!!!')
@@ -122,12 +123,14 @@ function RouteComponent() {
 							sx={{ border: 0 }}
 						/>
 						<div className='flex w-full justify-end p-4'>
-							<Button
-								variant='contained'
-								color='primary'
-								size='medium'>
-								Add Product
-							</Button>
+							<Link to='/orders/new/addProduct'>
+								<Button
+									variant='contained'
+									color='primary'
+									size='medium'>
+									Add Product
+								</Button>
+							</Link>
 						</div>
 					</Paper>
 					<div className='flex flex-col gap-2 pt-8 pb-4'>
