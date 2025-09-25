@@ -9,127 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProductsIndexRouteImport } from './routes/products/index'
-import { Route as OrdersIndexRouteImport } from './routes/orders/index'
-import { Route as ProductsNewRouteImport } from './routes/products/new'
-import { Route as OrdersNewIndexRouteImport } from './routes/orders/new/index'
-import { Route as OrdersNewAddProductRouteImport } from './routes/orders/new/addProduct'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductsIndexRoute = ProductsIndexRouteImport.update({
-  id: '/products/',
-  path: '/products/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrdersIndexRoute = OrdersIndexRouteImport.update({
-  id: '/orders/',
-  path: '/orders/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsNewRoute = ProductsNewRouteImport.update({
-  id: '/products/new',
-  path: '/products/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrdersNewIndexRoute = OrdersNewIndexRouteImport.update({
-  id: '/orders/new/',
-  path: '/orders/new/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrdersNewAddProductRoute = OrdersNewAddProductRouteImport.update({
-  id: '/orders/new/addProduct',
-  path: '/orders/new/addProduct',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/products/new': typeof ProductsNewRoute
-  '/orders': typeof OrdersIndexRoute
-  '/products': typeof ProductsIndexRoute
-  '/orders/new/addProduct': typeof OrdersNewAddProductRoute
-  '/orders/new': typeof OrdersNewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/products/new': typeof ProductsNewRoute
-  '/orders': typeof OrdersIndexRoute
-  '/products': typeof ProductsIndexRoute
-  '/orders/new/addProduct': typeof OrdersNewAddProductRoute
-  '/orders/new': typeof OrdersNewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/products/new': typeof ProductsNewRoute
-  '/orders/': typeof OrdersIndexRoute
-  '/products/': typeof ProductsIndexRoute
-  '/orders/new/addProduct': typeof OrdersNewAddProductRoute
-  '/orders/new/': typeof OrdersNewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/products/new'
-    | '/orders'
-    | '/products'
-    | '/orders/new/addProduct'
-    | '/orders/new'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/products/new'
-    | '/orders'
-    | '/products'
-    | '/orders/new/addProduct'
-    | '/orders/new'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/products/new'
-    | '/orders/'
-    | '/products/'
-    | '/orders/new/addProduct'
-    | '/orders/new/'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  ProductsNewRoute: typeof ProductsNewRoute
-  OrdersIndexRoute: typeof OrdersIndexRoute
-  ProductsIndexRoute: typeof ProductsIndexRoute
-  OrdersNewAddProductRoute: typeof OrdersNewAddProductRoute
-  OrdersNewIndexRoute: typeof OrdersNewIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -137,52 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/products/': {
-      id: '/products/'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orders/': {
-      id: '/orders/'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof OrdersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products/new': {
-      id: '/products/new'
-      path: '/products/new'
-      fullPath: '/products/new'
-      preLoaderRoute: typeof ProductsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orders/new/': {
-      id: '/orders/new/'
-      path: '/orders/new'
-      fullPath: '/orders/new'
-      preLoaderRoute: typeof OrdersNewIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orders/new/addProduct': {
-      id: '/orders/new/addProduct'
-      path: '/orders/new/addProduct'
-      fullPath: '/orders/new/addProduct'
-      preLoaderRoute: typeof OrdersNewAddProductRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  ProductsNewRoute: ProductsNewRoute,
-  OrdersIndexRoute: OrdersIndexRoute,
-  ProductsIndexRoute: ProductsIndexRoute,
-  OrdersNewAddProductRoute: OrdersNewAddProductRoute,
-  OrdersNewIndexRoute: OrdersNewIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button'
 import { createFileRoute } from '@tanstack/react-router'
 import { toast } from 'react-toastify'
 
@@ -10,13 +9,13 @@ function Index() {
 	return (
 		<div className='p-2'>
 			<h3>Welcome Home!</h3>
-			<Button
+			<button
+				className='btn btn-primary'
 				onClick={() => {
 					toast.success('hello world')
-				}}
-				variant='contained'>
+				}}>
 				Hello world
-			</Button>
+			</button>
 		</div>
 	)
 }

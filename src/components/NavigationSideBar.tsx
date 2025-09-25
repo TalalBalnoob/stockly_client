@@ -1,4 +1,4 @@
-import { Home, LocalOffer, Receipt } from '@mui/icons-material'
+import { Home } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
@@ -15,7 +15,7 @@ const NavigationSideBar = () => {
 						icon={<Home />}
 					/>
 				</Link>
-				<Link
+				{/* <Link
 					className='w-full'
 					to='/products'>
 					<Item
@@ -30,7 +30,7 @@ const NavigationSideBar = () => {
 						text='Orders'
 						icon={<Receipt />}
 					/>
-				</Link>
+				</Link> */}
 			</div>
 		</nav>
 	)
