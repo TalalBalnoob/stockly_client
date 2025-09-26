@@ -2,9 +2,9 @@ export type Product = {
 	id: number
 	name: string
 	description: string
+	storage_Note: string
 	price: number
 	quantity: number
-	imageUrl: string | null
 	isActive: boolean
 	createdAt?: string
 }
