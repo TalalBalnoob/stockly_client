@@ -4,7 +4,7 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
-import { ProductTableColumns } from '../../services/tables'
+import { ProductTableColumns } from '../../services/tables/products'
 import { useQuery } from '@tanstack/react-query'
 import { getProducts } from '../../services/api/products'
 

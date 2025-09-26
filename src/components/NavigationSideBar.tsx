@@ -1,4 +1,4 @@
-import { Home } from 'lucide-react'
+import { Home, ShoppingCart } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
@@ -15,22 +15,14 @@ const NavigationSideBar = () => {
 						icon={<Home />}
 					/>
 				</Link>
-				{/* <Link
+				<Link
 					className='w-full'
 					to='/products'>
 					<Item
 						text='Products'
-						icon={<LocalOffer />}
+						icon={<ShoppingCart />}
 					/>
 				</Link>
-				<Link
-					className='w-full'
-					to='/orders'>
-					<Item
-						text='Orders'
-						icon={<Receipt />}
-					/>
-				</Link> */}
 			</div>
 		</nav>
 	)
