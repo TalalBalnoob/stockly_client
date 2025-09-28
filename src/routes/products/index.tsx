@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import {
 	flexRender,
 	getCoreRowModel,
@@ -7,20 +7,18 @@ import {
 import { ProductTableColumns } from '../../services/tables/products'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { deleteProduct, getProducts } from '../../services/api/products'
-import NewProductDrawer from '../../components/NewProductDrawer'
-import { useState } from 'react'
 import { confirm } from '../../components/ConfirmDialog'
 import { toast } from 'react-toastify'
-import { Trash } from 'lucide-react'
-import UpdateProductDrawer from '../../components/UpdateProductDrawer'
-import type { Product } from '../../types'
+
+import { Pen, Trash } from 'lucide-react'
 
 export const Route = createFileRoute('/products/')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	const [page, setPage] = useState(1)
+	const navigate = useNavigate()
+	// const [page, setPage] = useState(1)
 
 	const { data, refetch } = useQuery({
 		queryKey: ['products'],
@@ -64,11 +62,13 @@ function RouteComponent() {
 					<input
 						type='text'
 						placeholder='Search'
-						className='input input-md ml-auto'
+						className='input input-md'
 					/>
-				</div>
 
-				<NewProductDrawer />
+					<Link to='/products/new'>
+						<button className='btn btn-primary'>Create new</button>
+					</Link>
+				</div>
 			</div>
 
 			<div className='overflow-x-auto'>
@@ -104,18 +104,17 @@ function RouteComponent() {
 								})}
 								<td>
 									<span className='flex gap-1'>
-										<UpdateProductDrawer
-											product={
-												data?.find(
-													(p) =>
-														p.id ===
-														(row
-															.getVisibleCells()
-															.find((p) => p.column.id == 'id')
-															?.getValue() as number),
-												) as Product
-											}
-										/>
+										<button
+											className='btn btn-sm bg-yellow-500/80'
+											onClick={() => {
+												const id = row
+													.getVisibleCells()
+													.find((p) => p.column.id == 'id')
+													?.getValue() as number
+												navigate({ to: `/products/update/${id}` })
+											}}>
+											<Pen />
+										</button>
 										<button
 											className='btn btn-sm bg-red-500/80'
 											onClick={() =>

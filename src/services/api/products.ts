@@ -9,12 +9,8 @@ export const getProducts = async () => {
 	return res.data
 }
 
-export const getProduct = async ({
-	queryKey,
-}: {
-	queryKey: [string, string | number]
-}) => {
-	const res = await api.get<Product>(`/Product/${queryKey[1]}`)
+export const getProduct = async (id: number) => {
+	const res = await api.get<Product>(`/Product/${id}`)
 	if (res.status == 404) throw new Error('Product not found')
 	else if (res.status != 200) throw new Error('Something went wrong')
 
