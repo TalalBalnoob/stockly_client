@@ -1,27 +1,31 @@
 import { useMutation } from '@tanstack/react-query'
-import { useState } from 'react'
-import { createProduct } from '../services/api/products'
+import { useEffect, useState } from 'react'
+import { updateProduct } from '../services/api/products'
 import { CreateProductValidation } from '../validation/Product'
 import { toast } from 'react-toastify'
+import type { Product } from '../types'
+import { Pen } from 'lucide-react'
 
-const NewProductDrawer = () => {
-	const [productName, setProductName] = useState('')
-	const [productDescription, setProductDescription] = useState('')
-	const [storageNote, setStorageNote] = useState('')
-	const [price, setPrice] = useState(0)
-	const [productQuantity, setProductQuantity] = useState(0)
-	const [isProductActive, setIsProductActive] = useState(true)
+const UpdateProductDrawer = ({ product }: { product: Product }) => {
+	const [productName, setProductName] = useState(product.name)
+	const [productDescription, setProductDescription] = useState(
+		product.description,
+	)
+	const [storageNote, setStorageNote] = useState(product.storage_Note)
+	const [price, setPrice] = useState(product.price)
+	const [productQuantity, setProductQuantity] = useState(product.quantity)
+	const [isProductActive, setIsProductActive] = useState(product.isActive)
 
-	const createProductMutat = useMutation({
-		mutationKey: ['newProduct'],
-		mutationFn: createProduct,
+	const updateProductMutat = useMutation({
+		mutationKey: ['UpdateProduct'],
+		mutationFn: updateProduct,
 	})
 
 	const submitNewProduct = () => {
 		// #1 Validate Data
 		try {
 			CreateProductValidation.parse({
-				id: 0,
+				id: product.id,
 				name: productName,
 				description: productDescription,
 				storage_Note: storageNote,
@@ -35,8 +39,8 @@ const NewProductDrawer = () => {
 		}
 
 		// #2 Push
-		createProductMutat.mutate({
-			id: 0,
+		updateProductMutat.mutate({
+			id: product.id,
 			name: productName,
 			description: productDescription,
 			storage_Note: storageNote,
@@ -45,7 +49,7 @@ const NewProductDrawer = () => {
 			isActive: isProductActive,
 		})
 		// #3 check the state of the operation
-		if (createProductMutat.status !== 'success') {
+		if (updateProductMutat.status !== 'success') {
 			toast.error('something went wrong :(')
 			return
 		}
@@ -64,25 +68,25 @@ const NewProductDrawer = () => {
 	return (
 		<div className='drawer'>
 			<input
-				id='create-drawer'
+				id='update-drawer'
 				type='checkbox'
 				className='drawer-toggle'
 			/>
 			<div className='drawer-content ml-auto'>
 				{/* Page content here */}
 				<label
-					htmlFor='create-drawer'
-					className='btn btn-primary drawer-button'>
-					Open drawer
+					htmlFor='update-drawer'
+					className='btn btn-warning btn-sm drawer-button'>
+					<Pen />
 				</label>
 			</div>
 			<div className='drawer-side'>
 				<label
-					htmlFor='create-drawer'
+					htmlFor='update-drawer'
 					aria-label='close sidebar'
 					className='drawer-overlay'></label>
 				<div className='menu bg-base-200 text-base-content min-h-full w-1/4 p-4'>
-					<h1 className='text-2xl'>New Product</h1>
+					<h1 className='text-2xl'>Update Product</h1>
 					<fieldset className='fieldset rounded-box w-full p-4'>
 						<fieldset className='fieldset rounded-box w-full'>
 							<legend className='fieldset-legend'>Product Name</legend>
@@ -162,9 +166,9 @@ const NewProductDrawer = () => {
 						<button
 							className='btn btn-neutral mt-4'
 							onClick={submitNewProduct}>
-							Save Product
+							Save Changes
 						</button>
-						<button className='btn btn-error btn-outline mt-4'>Clear</button>
+						{/* <button className='btn btn-error btn-outline mt-4'></button> */}
 					</fieldset>
 				</div>
 			</div>
@@ -172,4 +176,4 @@ const NewProductDrawer = () => {
 	)
 }
 
-export default NewProductDrawer
+export default UpdateProductDrawer

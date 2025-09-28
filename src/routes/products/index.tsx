@@ -11,7 +11,9 @@ import NewProductDrawer from '../../components/NewProductDrawer'
 import { useState } from 'react'
 import { confirm } from '../../components/ConfirmDialog'
 import { toast } from 'react-toastify'
-import { Pen, Trash } from 'lucide-react'
+import { Trash } from 'lucide-react'
+import UpdateProductDrawer from '../../components/UpdateProductDrawer'
+import type { Product } from '../../types'
 
 export const Route = createFileRoute('/products/')({
 	component: RouteComponent,
@@ -102,19 +104,18 @@ function RouteComponent() {
 								})}
 								<td>
 									<span className='flex gap-1'>
-										<button
-											className='btn btn-sm bg-yellow-400'
-											onClick={() =>
-												console.log(
-													row
-														.getVisibleCells()
-														.find((p) => p.column.id == 'id')
-														?.getValue(),
-												)
-											}>
-											<Pen />
-											{/* Edit */}
-										</button>
+										<UpdateProductDrawer
+											product={
+												data?.find(
+													(p) =>
+														p.id ===
+														(row
+															.getVisibleCells()
+															.find((p) => p.column.id == 'id')
+															?.getValue() as number),
+												) as Product
+											}
+										/>
 										<button
 											className='btn btn-sm bg-red-500/80'
 											onClick={() =>
