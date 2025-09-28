@@ -1,7 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import type { Product } from '../../types'
 import Currency from 'react-currency-formatter'
-import { Pen, Trash } from 'lucide-react'
 
 const columnHelper = createColumnHelper<Product>()
 
@@ -40,26 +39,26 @@ export const ProductTableColumns = [
 			return <p className='text-lg'>{props.getValue()}</p>
 		},
 	}),
-	columnHelper.accessor('id', {
-		header: 'Actions',
-		id: 'action',
-		cell: (props) => {
-			return (
-				<span className='flex gap-1'>
-					<button
-						className='btn btn-sm bg-yellow-400'
-						onClick={() => console.log(props.getValue())}>
-						<Pen />
-						{/* Edit */}
-					</button>
-					<button
-						className='btn btn-sm bg-red-500/80'
-						onClick={() => console.log(props.getValue())}>
-						<Trash />
-						{/* Delete */}
-					</button>
-				</span>
-			)
-		},
-	}),
+	// columnHelper.accessor('id', {
+	// 	header: 'Actions',
+	// 	id: 'action',
+	// 	cell: (props) => {
+	// 		return (
+	// 			<span className='flex gap-1'>
+	// 				<button
+	// 					className='btn btn-sm bg-yellow-400'
+	// 					onClick={() => console.log(props.getValue())}>
+	// 					<Pen />
+	// 					{/* Edit */}
+	// 				</button>
+	// 				<button
+	// 					className='btn btn-sm bg-red-500/80'
+	// 					onClick={() => console.log()}>
+	// 					<Trash />
+	// 					{/* Delete */}
+	// 				</button>
+	// 			</span>
+	// 		)
+	// 	},
+	// }),
 ]

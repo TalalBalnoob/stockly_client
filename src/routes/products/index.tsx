@@ -5,17 +5,36 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 import { ProductTableColumns } from '../../services/tables/products'
-import { useQuery } from '@tanstack/react-query'
-import { getProducts } from '../../services/api/products'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { deleteProduct, getProducts } from '../../services/api/products'
+import NewProductDrawer from '../../components/NewProductDrawer'
+import { useState } from 'react'
+import { confirm } from '../../components/ConfirmDialog'
+import { toast } from 'react-toastify'
+import { Pen, Trash } from 'lucide-react'
 
 export const Route = createFileRoute('/products/')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	const { data } = useQuery({
+	const [page, setPage] = useState(1)
+
+	const { data, refetch } = useQuery({
 		queryKey: ['products'],
 		queryFn: getProducts,
+	})
+
+	const deleteProductMutat = useMutation({
+		mutationKey: ['deleteProduct'],
+		mutationFn: deleteProduct,
+		onSuccess: () => {
+			toast.success('Product has been deleted')
+			refetch()
+		},
+		onError: () => {
+			toast.error('Something went wrong!!!')
+		},
 	})
 
 	const table = useReactTable({
@@ -23,6 +42,16 @@ function RouteComponent() {
 		data: data ?? [],
 		getCoreRowModel: getCoreRowModel(),
 	})
+
+	const deleteProductSubmit = async (id: number) => {
+		const isConfirm = await confirm({
+			message: 'Are you sure you want to delete this product',
+		})
+
+		if (!isConfirm) return
+
+		deleteProductMutat.mutate(id)
+	}
 
 	return (
 		<>
@@ -37,102 +66,7 @@ function RouteComponent() {
 					/>
 				</div>
 
-				<div className='drawer'>
-					<input
-						id='my-drawer'
-						type='checkbox'
-						className='drawer-toggle'
-					/>
-					<div className='drawer-content ml-auto'>
-						{/* Page content here */}
-						<label
-							htmlFor='my-drawer'
-							className='btn btn-primary drawer-button'>
-							Open drawer
-						</label>
-					</div>
-					<div className='drawer-side'>
-						<label
-							htmlFor='my-drawer'
-							aria-label='close sidebar'
-							className='drawer-overlay'></label>
-						<div className='menu bg-base-200 text-base-content min-h-full w-1/4 p-4'>
-							<h1 className='text-2xl'>New Product</h1>
-							<fieldset className='fieldset rounded-box w-full p-4'>
-								<fieldset className='fieldset rounded-box w-full'>
-									<legend className='fieldset-legend'>Product Name</legend>
-									<input
-										type='text'
-										className='input w-full'
-										placeholder='Name'
-									/>
-								</fieldset>
-
-								<fieldset className='fieldset'>
-									<legend className='fieldset-legend'>
-										Product Description
-									</legend>
-									<textarea
-										className='textarea h-24 w-full'
-										placeholder='Description'></textarea>
-									<div className='label'>Optional</div>
-								</fieldset>
-
-								<fieldset className='fieldset'>
-									<legend className='fieldset-legend'>
-										Product Storage Note
-									</legend>
-									<textarea
-										className='textarea h-24 w-full'
-										placeholder='Description'></textarea>
-									<div className='label'>
-										Optional note for how or where the product is stored
-									</div>
-								</fieldset>
-
-								<fieldset className='fieldset rounded-box w-full'>
-									<legend className='fieldset-legend'>Product Quantity</legend>
-									<input
-										type='number'
-										className='input validator w-full'
-										required
-										placeholder=''
-										min='0'
-									/>
-								</fieldset>
-
-								<fieldset className='fieldset rounded-box w-full'>
-									<legend className='fieldset-legend'>Product Price</legend>
-									<input
-										type='number'
-										className='input validator w-full'
-										required
-										placeholder=''
-										min='0'
-										step='.01'
-										id='noArrow'
-									/>
-								</fieldset>
-
-								<fieldset className='fieldset rounded-box w-full pt-4'>
-									<label className='label'>
-										<input
-											type='checkbox'
-											defaultChecked
-											className='checkbox'
-										/>
-										Is Product Active for sales
-									</label>
-								</fieldset>
-
-								<button className='btn btn-neutral mt-4'>Save Product</button>
-								<button className='btn btn-error btn-outline mt-4'>
-									Clear
-								</button>
-							</fieldset>
-						</div>
-					</div>
-				</div>
+				<NewProductDrawer />
 			</div>
 
 			<div className='overflow-x-auto'>
@@ -166,9 +100,64 @@ function RouteComponent() {
 										</td>
 									)
 								})}
+								<td>
+									<span className='flex gap-1'>
+										<button
+											className='btn btn-sm bg-yellow-400'
+											onClick={() =>
+												console.log(
+													row
+														.getVisibleCells()
+														.find((p) => p.column.id == 'id')
+														?.getValue(),
+												)
+											}>
+											<Pen />
+											{/* Edit */}
+										</button>
+										<button
+											className='btn btn-sm bg-red-500/80'
+											onClick={() =>
+												deleteProductSubmit(
+													row
+														.getVisibleCells()
+														.find((p) => p.column.id == 'id')
+														?.getValue() as number,
+												)
+											}>
+											<Trash />
+											{/* Delete */}
+										</button>
+									</span>
+								</td>
 							</tr>
 						))}
+						<tr>
+							{table.getRowModel().rows.length === 0 && (
+								<td
+									className='text-center'
+									colSpan={table.getAllColumns().length}>
+									No results.
+								</td>
+							)}
+						</tr>
 					</tbody>
+					<tfoot>
+						<tr className='bg-base-300 text-2xl'>
+							<td
+								colSpan={table.getAllColumns().length + 1}
+								className='m-1'>
+								<div className='flex w-full justify-between'>
+									<h1>Table footer</h1>
+									<div className='join mr-20'>
+										<button className='join-item btn'>«</button>
+										<button className='join-item btn'>Page 1</button>
+										<button className='join-item btn'>»</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</>
