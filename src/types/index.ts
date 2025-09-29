@@ -24,27 +24,56 @@ export type StockChange = {
 
 export type Order = {
 	id: number
-	customer_Name: string
-	customer_Contact: string
+	customer_name: string
+	customer_contact: string
+	payment_method: PaymentMethods
+	payment_notes: string
 	items: OrderItem[]
-	total_amount: number
+	order_total: number
 	status: StatusOptions
 	createdAt?: string
 }
 
 export type StatusOptions =
+	| 'payment pending'
 	| 'approved'
 	| 'shipped'
 	| 'delivered'
 	| 'cancelled'
 	| 'returned'
+	| 'on hold'
+
+export type PaymentMethods =
+	| 'None'
+	| 'Cash'
+	| 'Bank Transfer'
+	| 'Credit Card'
+	| 'Debit Card'
+	| 'Mada' // KSA-specific
+	| 'PayPal'
+	| 'Stripe'
+	| 'Other'
 
 export const statusOptions: StatusOptions[] = [
+	'payment pending',
 	'approved',
 	'shipped',
 	'delivered',
 	'cancelled',
 	'returned',
+	'on hold',
+]
+
+export const paymentMethods: PaymentMethods[] = [
+	'None',
+	'Cash',
+	'Bank Transfer',
+	'Credit Card',
+	'Debit Card',
+	'Mada', // KSA-specific
+	'PayPal',
+	'Stripe',
+	'Other',
 ]
 
 export type OrderItem = {

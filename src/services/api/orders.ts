@@ -8,9 +8,23 @@ export const getOrders = async () => {
 	return res.data
 }
 
+export const getOrder = async (id: number) => {
+	const res = await api.get<Order>('/Order/' + id)
+	if (res.status !== 200) throw new Error('Failed to fetch orders')
+
+	return res.data
+}
+
 export const createOrder = async (newOrder: Order) => {
 	const res = await api.post('/Order', newOrder)
 	if (res.status !== 200) throw new Error('Something went wrong')
+
+	return res.data
+}
+
+export const updateOrder = async (order: Order) => {
+	const res = await api.put<Order>(`/order/${order.id}`, order)
+	if (res.status != 200) throw new Error('Something went wrong')
 
 	return res.data
 }
