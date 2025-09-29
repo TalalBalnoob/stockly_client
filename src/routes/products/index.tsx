@@ -5,12 +5,13 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 import { ProductTableColumns } from '../../services/tables/products'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
 import { deleteProduct, getProducts } from '../../services/api/products'
 import { confirm } from '../../components/ConfirmDialog'
 import { toast } from 'react-toastify'
 
 import { Pen, Trash } from 'lucide-react'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/products/')({
 	component: RouteComponent,
@@ -18,11 +19,12 @@ export const Route = createFileRoute('/products/')({
 
 function RouteComponent() {
 	const navigate = useNavigate()
-	// const [page, setPage] = useState(1)
+	const [page, setPage] = useState(1)
 
 	const { data, refetch } = useQuery({
-		queryKey: ['products'],
-		queryFn: getProducts,
+		queryKey: ['products', page],
+		queryFn: () => getProducts(page),
+		placeholderData: keepPreviousData,
 	})
 
 	const deleteProductMutat = useMutation({
@@ -39,7 +41,7 @@ function RouteComponent() {
 
 	const table = useReactTable({
 		columns: ProductTableColumns,
-		data: data ?? [],
+		data: data?.items ?? [],
 		getCoreRowModel: getCoreRowModel(),
 	})
 
@@ -91,7 +93,9 @@ function RouteComponent() {
 					</thead>
 					<tbody>
 						{table.getRowModel().rows.map((row) => (
-							<tr key={row.id}>
+							<tr
+								key={row.id}
+								className={`${data?.items.find((p) => p.id == row.getValue('id'))?.isActive ? '' : 'bg-neutral/10 line-through'}`}>
 								{row.getVisibleCells().map((cell) => {
 									return (
 										<td key={cell.id}>
@@ -150,9 +154,34 @@ function RouteComponent() {
 								<div className='flex w-full justify-between'>
 									<h1>Table footer</h1>
 									<div className='join mr-20'>
-										<button className='join-item btn'>«</button>
-										<button className='join-item btn'>Page 1</button>
-										<button className='join-item btn'>»</button>
+										{data == null ? (
+											'Loading...'
+										) : (
+											<>
+												<button
+													className='join-item btn'
+													disabled={data?.pageNumber <= 1 ? true : false}
+													onClick={() =>
+														setPage((old) => Math.max(old - 1, 1))
+													}>
+													«
+												</button>
+												<button className='join-item btn'>
+													Page {data?.pageNumber}
+												</button>
+												<button
+													className='join-item btn'
+													disabled={
+														data.pageSize * data.pageNumber + 1 >
+														data.totalCount
+															? true
+															: false
+													}
+													onClick={() => setPage((old) => old + 1)}>
+													»
+												</button>
+											</>
+										)}
 									</div>
 								</div>
 							</td>

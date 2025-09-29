@@ -9,6 +9,13 @@ export type Product = {
 	createdAt?: string
 }
 
+export type ProductsPage = {
+	items: Product[]
+	totalCount: number
+	pageNumber: number
+	pageSize: number
+}
+
 export type StockChange = {
 	quantity: number
 	reason: string

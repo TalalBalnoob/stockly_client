@@ -23,6 +23,12 @@ export const ProductTableColumns = [
 			return <p className='text-lg'>{props.getValue()}</p>
 		},
 	}),
+	columnHelper.accessor('storage_Note', {
+		header: 'Storage Note',
+		cell: (props) => {
+			return <p className='text-lg'>{props.getValue()}</p>
+		},
+	}),
 	columnHelper.accessor('price', {
 		header: 'Price',
 		cell: (props) => {
