@@ -9,6 +9,7 @@ export const getOrders = async () => {
 }
 
 export const getOrder = async (id: number) => {
+	console.log(id)
 	const res = await api.get<Order>('/Order/' + id)
 	if (res.status !== 200) throw new Error('Failed to fetch orders')
 

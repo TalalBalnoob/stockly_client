@@ -17,7 +17,6 @@ export const Route = createFileRoute('/orders/update/$id')({
 
 function RouteComponent() {
 	const { id } = useParams({ from: '/orders/update/$id' })
-	console.log(id)
 
 	const { data, isSuccess, status } = useQuery({
 		queryKey: ['getProduct'],
@@ -37,6 +36,7 @@ function RouteComponent() {
 
 	useEffect(() => {
 		if (data || isSuccess) {
+			console.log(data)
 			setOrderId(data.id)
 			setCustomerName(data.customer_name)
 			setCustomerContact(data.customer_contact)
@@ -56,7 +56,7 @@ function RouteComponent() {
 			setPaymentNotes('')
 			setOrderStatus('payment pending')
 
-			toast.success('New Order Has been Added')
+			toast.success('Order Has been updated')
 			navigate({ to: '/orders' })
 		},
 		onError: () => {
@@ -126,17 +126,13 @@ function RouteComponent() {
 					<select
 						defaultValue='Pick Order Status'
 						className='select'
-						onChange={(e) => setOrderStatus(e.target.value as StatusOptions)}>
+						onChange={(e) => setOrderStatus(e.target.value as StatusOptions)}
+						value={orderStatus}>
 						<option disabled={true}>Order Status</option>
 						{statusOptions.map((state) => (
-							<option
-								key={state}
-								defaultChecked={state === orderStatus ? true : false}>
-								{state}
-							</option>
+							<option key={state}>{state}</option>
 						))}
 					</select>
-					<span className='label'>Optional</span>
 				</fieldset>
 
 				<fieldset className='fieldset'>
@@ -144,16 +140,11 @@ function RouteComponent() {
 					<select
 						defaultValue='Pick Payment Method'
 						className='select'
-						onChange={(e) =>
-							setPaymentMethod(e.target.value as PaymentMethods)
-						}>
+						onChange={(e) => setPaymentMethod(e.target.value as PaymentMethods)}
+						value={paymentMethod}>
 						<option disabled={true}>Payment Methods</option>
 						{paymentMethods.map((state) => (
-							<option
-								key={state}
-								defaultChecked={state === paymentMethod ? true : false}>
-								{state}
-							</option>
+							<option key={state}>{state}</option>
 						))}
 					</select>
 					<span className='label'>Optional</span>
@@ -168,6 +159,7 @@ function RouteComponent() {
 						value={paymentNotes}
 						onChange={(e) => setPaymentNotes(e.target.value)}
 					/>
+					<span className='label'>Payment number or identifier</span>
 				</fieldset>
 
 				<button

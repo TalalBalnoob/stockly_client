@@ -26,13 +26,7 @@ export const OrderTableColumns = [
 	columnHelper.accessor('payment_method', {
 		header: 'Payment',
 		cell: (props) => {
-			return <p className='badge badge-primary text-lg'>{props.getValue()}</p>
-		},
-	}),
-	columnHelper.accessor('payment_notes', {
-		header: 'Payment Notes',
-		cell: (props) => {
-			return <p className='text-lg'>{props.getValue()}</p>
+			return <p className='badge badge-primary'>{props.getValue()}</p>
 		},
 	}),
 	columnHelper.accessor('status', {
