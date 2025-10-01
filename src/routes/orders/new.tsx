@@ -106,17 +106,13 @@ function RouteComponent() {
 					<select
 						defaultValue='Pick Order Status'
 						className='select'
-						onChange={(e) => setStatus(e.target.value as StatusOptions)}>
+						onChange={(e) => setStatus(e.target.value as StatusOptions)}
+						value={status}>
 						<option disabled={true}>Order Status</option>
 						{statusOptions.map((state) => (
-							<option
-								key={state}
-								defaultChecked={state === status ? true : false}>
-								{state}
-							</option>
+							<option key={state}>{state}</option>
 						))}
 					</select>
-					<span className='label'>Optional</span>
 				</fieldset>
 
 				<fieldset className='fieldset'>
@@ -124,16 +120,11 @@ function RouteComponent() {
 					<select
 						defaultValue='Pick Payment Method'
 						className='select'
-						onChange={(e) =>
-							setPaymentMethod(e.target.value as PaymentMethods)
-						}>
+						onChange={(e) => setPaymentMethod(e.target.value as PaymentMethods)}
+						value={paymentMethod}>
 						<option disabled={true}>Payment Methods</option>
 						{paymentMethods.map((state) => (
-							<option
-								key={state}
-								defaultChecked={state === paymentMethod ? true : false}>
-								{state}
-							</option>
+							<option key={state}>{state}</option>
 						))}
 					</select>
 					<span className='label'>Optional</span>
@@ -148,6 +139,7 @@ function RouteComponent() {
 						value={paymentNotes}
 						onChange={(e) => setPaymentNotes(e.target.value)}
 					/>
+					<span className='label'>Payment number or identifier</span>
 				</fieldset>
 
 				<button
