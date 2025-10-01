@@ -4,7 +4,7 @@ import Currency from 'react-currency-formatter'
 
 const columnHelper = createColumnHelper<Product>()
 
-export const ProductTableColumns = [
+export const OrderProductsTableColumns = [
 	columnHelper.accessor('id', {
 		header: 'ID',
 		cell: (props) => {
@@ -13,18 +13,6 @@ export const ProductTableColumns = [
 	}),
 	columnHelper.accessor('name', {
 		header: 'Product Name',
-		cell: (props) => {
-			return <p className='text-lg'>{props.getValue()}</p>
-		},
-	}),
-	columnHelper.accessor('description', {
-		header: 'Description',
-		cell: (props) => {
-			return <p className='text-lg'>{props.getValue()}</p>
-		},
-	}),
-	columnHelper.accessor('storage_Note', {
-		header: 'Storage Note',
 		cell: (props) => {
 			return <p className='text-lg'>{props.getValue()}</p>
 		},

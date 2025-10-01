@@ -48,7 +48,11 @@ export const OrderTableColumns = [
 	columnHelper.accessor('items', {
 		header: 'Items',
 		cell: (props) => {
-			return <p className='text-lg'>{props.getValue().length}</p>
+			return (
+				<p className='text-lg'>
+					{props.getValue().reduce((acc, item) => acc + item.quantity, 0)}
+				</p>
+			)
 		},
 	}),
 	// columnHelper.accessor('id', {

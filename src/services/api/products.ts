@@ -9,6 +9,16 @@ export const getProducts = async (pageNumber: number = 1) => {
 	return res.data
 }
 
+export const getProductsWithNonDisables = async (pageNumber: number = 1) => {
+	const res = await api.get<ProductsPage>(
+		`/Product?pageNumber=${pageNumber}&nonDisabled=true`,
+	)
+	if (res.status == 404) throw new Error('Product not found')
+	else if (res.status != 200) throw new Error('Something went wrong')
+
+	return res.data
+}
+
 export const getProduct = async (id: number) => {
 	const res = await api.get<Product>(`/Product/${id}`)
 	if (res.status == 404) throw new Error('Product not found')
