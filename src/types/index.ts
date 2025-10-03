@@ -17,9 +17,18 @@ export type ProductsPage = {
 }
 
 export type StockChange = {
+	id: number
 	quantity: number
 	reason: string
 	productId: number
+	related_Order_Id?: number
+}
+
+export type StockPage = {
+	items: StockChange[]
+	totalCount: number
+	pageNumber: number
+	pageSize: number
 }
 
 export type Order = {
