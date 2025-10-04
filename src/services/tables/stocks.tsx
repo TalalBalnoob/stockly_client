@@ -10,7 +10,7 @@ export const StockTableColumns = [
 			return <p className='text-lg'>{props.getValue()}</p>
 		},
 	}),
-	columnHelper.accessor('productId', {
+	columnHelper.accessor('product_Name', {
 		header: 'Product Id',
 		cell: (props) => {
 			return <p className='text-lg'>{props.getValue()}</p>
@@ -19,10 +19,10 @@ export const StockTableColumns = [
 	columnHelper.accessor('related_Order_Id', {
 		header: 'Order id (optional)',
 		cell: (props) => {
-			return <p className='text-lg'>{props.getValue() ?? null}</p>
+			return <p className='text-lg'>{props.getValue() ?? 'NONE'}</p>
 		},
 	}),
-	columnHelper.accessor('quantity', {
+	columnHelper.accessor('change', {
 		header: 'change',
 		cell: (props) => {
 			return <p className='text-lg'>{props.getValue()}</p>

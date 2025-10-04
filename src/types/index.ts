@@ -18,9 +18,10 @@ export type ProductsPage = {
 
 export type StockChange = {
 	id: number
-	quantity: number
+	change: number
 	reason: string
-	productId: number
+	product_Id: number
+	product_Name: string
 	related_Order_Id?: number
 }
 
