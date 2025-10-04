@@ -25,7 +25,11 @@ export const StockTableColumns = [
 	columnHelper.accessor('change', {
 		header: 'change',
 		cell: (props) => {
-			return <p className='text-lg'>{props.getValue()}</p>
+			return (
+				<p className='text-lg'>
+					{props.getValue() > 0 ? '+' + props.getValue() : props.getValue()}
+				</p>
+			)
 		},
 	}),
 	columnHelper.accessor('reason', {
