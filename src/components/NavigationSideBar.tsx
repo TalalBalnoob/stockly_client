@@ -1,4 +1,4 @@
-import { Files, Home, ShoppingCart } from 'lucide-react'
+import { ChartLine, Files, Home, ShoppingCart } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
@@ -29,6 +29,14 @@ const NavigationSideBar = () => {
 					<Item
 						text='Orders'
 						icon={<Files />}
+					/>
+				</Link>
+				<Link
+					className='w-full'
+					to='/stocks'>
+					<Item
+						text='Stock Logs'
+						icon={<ChartLine />}
 					/>
 				</Link>
 			</div>
