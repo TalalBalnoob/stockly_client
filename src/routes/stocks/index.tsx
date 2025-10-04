@@ -31,7 +31,7 @@ function RouteComponent() {
 		<>
 			<div className='m-4 flex items-center justify-between'>
 				<div className='flex w-full justify-between'>
-					<h1 className='mr-4 text-2xl'>Products</h1>
+					<h1 className='mr-4 text-2xl'>Stocks</h1>
 
 					<input
 						type='text'
@@ -40,7 +40,7 @@ function RouteComponent() {
 					/>
 
 					<Link to='/products/new'>
-						<button className='btn btn-primary'>Create new</button>
+						{/* <button className='btn bg-transparent'></button> */}
 					</Link>
 				</div>
 			</div>
@@ -121,7 +121,7 @@ function RouteComponent() {
 								colSpan={table.getAllColumns().length + 1}
 								className='m-1'>
 								<div className='flex w-full justify-between'>
-									<h1>Table footer</h1>
+									<h1></h1>
 									<div className='join mr-20'>
 										{data == null ? (
 											'Loading...'
