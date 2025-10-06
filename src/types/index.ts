@@ -93,3 +93,15 @@ export type OrderItem = {
 	quantity: number
 	unitPrice: number
 }
+
+export type HomeStats = {
+	productsCount: number
+	ordersCount: number
+	unShippedOrdersCount: number
+	pendingOrdersCount: number
+	productsStorage: {
+		quantity: number
+		name: string
+	}[]
+	latestOrders: Order[]
+}

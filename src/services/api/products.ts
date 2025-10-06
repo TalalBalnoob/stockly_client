@@ -49,8 +49,8 @@ export const deleteProduct = async (productId: number) => {
 }
 
 export const updateProductStock = async (stockChange: StockChange) => {
-	const res = await api.post(`/stock/set/${stockChange.productId}`, {
-		quantity: stockChange.quantity,
+	const res = await api.post(`/stock/set/${stockChange.product_Id}`, {
+		quantity: stockChange.change,
 		reason: stockChange.reason,
 	})
 	if (res.status != 200) throw new Error('Something went wrong')
