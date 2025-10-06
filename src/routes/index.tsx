@@ -9,18 +9,29 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
-import { OrderTableColumns } from '../services/tables/orders'
+import {
+	OrderTableColumnsForHome,
+	ProductsTableColumnsForHome,
+} from '../services/tables/home'
+import { BarChart } from '@mui/x-charts'
 
 export const Route = createFileRoute('/')({
 	component: Index,
 })
 
-// const pie_data = [
-// 	{ label: 'Group A', value: 400, color: '#0088FE' },
-// 	{ label: 'Group B', value: 300, color: '#00C49F' },
-// 	{ label: 'Group C', value: 300, color: '#FFBB28' },
-// 	{ label: 'Group D', value: 400, color: '#FF8042' },
-// ]
+function valueFormatter(value: number | null) {
+	return `${value}`
+}
+
+const chartSetting = {
+	yAxis: [
+		{
+			label: 'orders',
+			width: 60,
+		},
+	],
+	height: 300,
+}
 
 const settings = {
 	margin: { right: 5 },
@@ -35,9 +46,15 @@ function Index() {
 		queryFn: getHomePageStats,
 	})
 
-	const table = useReactTable({
-		columns: OrderTableColumns,
+	const ordersTable = useReactTable({
+		columns: OrderTableColumnsForHome,
 		data: data?.latestOrders ?? [],
+		getCoreRowModel: getCoreRowModel(),
+	})
+
+	const productsTable = useReactTable({
+		columns: ProductsTableColumnsForHome,
+		data: data?.mostSoldProducts ?? [],
 		getCoreRowModel: getCoreRowModel(),
 	})
 
@@ -87,82 +104,159 @@ function Index() {
 					<div className='stat-desc'></div>
 				</div>
 			</div>
-			<div className='stat mx-8 mt-4 flex w-fit flex-col p-10 shadow'>
-				<div className='stat-title text-xl'>Storage Composition</div>
-				<div className='stat-value mt-4 text-lg'>
-					<PieChart
-						series={[
-							{
-								innerRadius: 50,
-								outerRadius: 100,
-								highlightScope: { fade: 'global', highlight: 'item' },
-								data: pie_data,
-								arcLabel: 'value',
-							},
-						]}
-						{...settings}
-					/>
+			<div className='flex justify-between'>
+				<div className='stat mx-8 mt-4 flex w-fit flex-col p-10 shadow'>
+					<div className='stat-title text-xl'>Storage Composition</div>
+					<div className='stat-value mt-4 text-lg'>
+						<PieChart
+							series={[
+								{
+									innerRadius: 50,
+									outerRadius: 100,
+									highlightScope: { fade: 'global', highlight: 'item' },
+									data: pie_data,
+									arcLabel: 'value',
+								},
+							]}
+							{...settings}
+						/>
+					</div>
+					<div className='stat-desc'></div>
 				</div>
-				<div className='stat-desc'></div>
+				<BarChart
+					dataset={data ? data.ordersPerMonth : []}
+					xAxis={[{ dataKey: 'month_name' }]}
+					series={[
+						{ dataKey: 'orders_count', label: 'Orders', valueFormatter },
+					]}
+					loading={data == null}
+					{...chartSetting}
+				/>
 			</div>
-			<table className='table'>
-				<thead>
-					{table.getHeaderGroups().map((headerGroup) => (
-						<tr key={headerGroup.id}>
-							{headerGroup.headers.map((header) => (
-								<th key={header.id}>
-									{header.isPlaceholder
-										? null
-										: flexRender(
-												header.column.columnDef.header,
-												header.getContext(),
+			<div className='mx-4 flex gap-4'>
+				<table className='bg-base-300 table w-3/5 rounded border border-gray-300/40 shadow'>
+					<thead>
+						{ordersTable.getHeaderGroups().map((headerGroup) => (
+							<tr key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
+									<th key={header.id}>
+										{header.isPlaceholder
+											? null
+											: flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
+									</th>
+								))}
+							</tr>
+						))}
+					</thead>
+					<tbody>
+						{ordersTable.getRowModel().rows.map((row) => (
+							<tr key={row.id}>
+								{row.getVisibleCells().map((cell) => {
+									return (
+										<td key={cell.id}>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
 											)}
-								</th>
-							))}
+										</td>
+									)
+								})}
+							</tr>
+						))}
+						<tr>
+							{ordersTable.getRowModel().rows.length === 0 && (
+								<td
+									className='text-center'
+									colSpan={ordersTable.getAllColumns().length}>
+									No results.
+								</td>
+							)}
 						</tr>
-					))}
-				</thead>
-				<tbody>
-					{table.getRowModel().rows.map((row) => (
-						<tr key={row.id}>
-							{row.getVisibleCells().map((cell) => {
-								return (
-									<td key={cell.id}>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</td>
-								)
-							})}
-						</tr>
-					))}
-					<tr>
-						{table.getRowModel().rows.length === 0 && (
+					</tbody>
+					<tfoot>
+						<tr className='bg-base-300 text-2xl'>
 							<td
-								className='text-center'
-								colSpan={table.getAllColumns().length}>
-								No results.
-							</td>
-						)}
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr className='bg-base-300 text-2xl'>
-						<td
-							colSpan={table.getAllColumns().length + 1}
-							className='m-1'>
-							<div className='flex w-full justify-between'>
-								<h1></h1>
-								<div className='join mr-20'>
-									<Link
-										to='/orders'
-										className='btn join-item btn-primary'>
-										View All Orders
-									</Link>
+								colSpan={ordersTable.getAllColumns().length + 1}
+								className='m-1'>
+								<div className='flex w-full justify-between'>
+									<h1></h1>
+									<div className='join mr-4'>
+										<Link
+											to='/orders'
+											className='btn join-item btn-primary'>
+											View All Orders
+										</Link>
+									</div>
 								</div>
-							</div>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<table className='bg-base-300 table w-2/5 rounded border border-gray-300/40 shadow'>
+					<thead>
+						{productsTable.getHeaderGroups().map((headerGroup) => (
+							<tr key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
+									<th key={header.id}>
+										{header.isPlaceholder
+											? null
+											: flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
+									</th>
+								))}
+							</tr>
+						))}
+					</thead>
+					<tbody>
+						{productsTable.getRowModel().rows.map((row) => (
+							<tr key={row.id}>
+								{row.getVisibleCells().map((cell) => {
+									return (
+										<td key={cell.id}>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
+											)}
+										</td>
+									)
+								})}
+							</tr>
+						))}
+						<tr>
+							{productsTable.getRowModel().rows.length === 0 && (
+								<td
+									className='text-center'
+									colSpan={productsTable.getAllColumns().length}>
+									No results.
+								</td>
+							)}
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr className='bg-base-300 text-2xl'>
+							<td
+								colSpan={productsTable.getAllColumns().length + 1}
+								className='m-1'>
+								<div className='flex w-full justify-between'>
+									<h1></h1>
+									<div className='join mr-4'>
+										<Link
+											to='/products'
+											className='btn join-item btn-primary'>
+											View All Products
+										</Link>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
 		</div>
 	)
 }

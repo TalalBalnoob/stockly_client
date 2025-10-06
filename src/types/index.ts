@@ -99,9 +99,24 @@ export type HomeStats = {
 	ordersCount: number
 	unShippedOrdersCount: number
 	pendingOrdersCount: number
+	mostSoldProducts: mostSoldProductItem[]
 	productsStorage: {
 		quantity: number
 		name: string
 	}[]
 	latestOrders: Order[]
+	ordersPerMonth: ordersPerMonth[]
+}
+
+export type mostSoldProductItem = {
+	product_id: number
+	totalSold: number
+	product_name: string
+}
+
+export type ordersPerMonth = {
+	// year: number
+	// month: number
+	month_name: string
+	orders_count: number
 }
