@@ -44,6 +44,13 @@ export type Order = {
 	createdAt?: string
 }
 
+export type OrderPage = {
+	items: Order[]
+	totalCount: number
+	pageNumber: number
+	pageSize: number
+}
+
 export type StatusOptions =
 	| 'payment pending'
 	| 'approved'

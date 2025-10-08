@@ -1,8 +1,8 @@
-import type { Order } from '../../types'
+import type { Order, OrderPage } from '../../types'
 import api from '../axios'
 
-export const getOrders = async () => {
-	const res = await api.get<Order[]>('/Order')
+export const getOrders = async (pageNumber: number) => {
+	const res = await api.get<OrderPage>('/Order?pageNumber=' + pageNumber)
 	if (res.status !== 200) throw new Error('Failed to fetch orders')
 
 	return res.data

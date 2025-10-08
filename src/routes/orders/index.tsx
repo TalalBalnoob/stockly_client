@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { Pen, Trash } from 'lucide-react'
 import { deleteOrder, getOrders } from '../../services/api/orders'
 import { OrderTableColumns } from '../../services/tables/orders'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/orders/')({
 	component: RouteComponent,
@@ -18,11 +19,11 @@ export const Route = createFileRoute('/orders/')({
 
 function RouteComponent() {
 	const navigate = useNavigate()
-	// const [page, setPage] = useState(1)
+	const [page, setPage] = useState(1)
 
 	const { data, refetch } = useQuery({
-		queryKey: ['orders'],
-		queryFn: () => getOrders(),
+		queryKey: ['orders', page],
+		queryFn: () => getOrders(page),
 		placeholderData: keepPreviousData,
 	})
 
@@ -40,7 +41,7 @@ function RouteComponent() {
 
 	const table = useReactTable({
 		columns: OrderTableColumns,
-		data: data ?? [],
+		data: data?.items ?? [],
 		getCoreRowModel: getCoreRowModel(),
 	})
 
@@ -143,7 +144,7 @@ function RouteComponent() {
 							)}
 						</tr>
 					</tbody>
-					{/* <tfoot>
+					<tfoot>
 						<tr className='bg-base-300 text-2xl'>
 							<td
 								colSpan={table.getAllColumns().length + 1}
@@ -183,7 +184,7 @@ function RouteComponent() {
 								</div>
 							</td>
 						</tr>
-					</tfoot> */}
+					</tfoot>
 				</table>
 			</div>
 		</>
