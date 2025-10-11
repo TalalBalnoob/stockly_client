@@ -1,8 +1,10 @@
 import type { Product, ProductsPage, StockChange } from '../../types'
 import api from '../axios'
 
-export const getProducts = async (pageNumber: number = 1) => {
-	const res = await api.get<ProductsPage>('/Product?pageNumber=' + pageNumber)
+export const getProducts = async (pageNumber: number = 1, search: string) => {
+	const res = await api.get<ProductsPage>(
+		`/Product?pageNumber=${pageNumber}${search != '' ? `&search=${search}` : ``}`,
+	)
 	if (res.status == 404) throw new Error('Product not found')
 	else if (res.status != 200) throw new Error('Something went wrong')
 

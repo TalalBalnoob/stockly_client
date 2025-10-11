@@ -20,10 +20,11 @@ export const Route = createFileRoute('/orders/')({
 function RouteComponent() {
 	const navigate = useNavigate()
 	const [page, setPage] = useState(1)
+	const [search, setSearch] = useState('')
 
 	const { data, refetch } = useQuery({
-		queryKey: ['orders', page],
-		queryFn: () => getOrders(page),
+		queryKey: ['orders', page, search],
+		queryFn: () => getOrders(page, search),
 		placeholderData: keepPreviousData,
 	})
 
@@ -65,6 +66,8 @@ function RouteComponent() {
 						type='text'
 						placeholder='Search'
 						className='input input-md'
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
 					/>
 
 					<Link to='/orders/new'>
