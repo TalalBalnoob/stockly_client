@@ -15,10 +15,11 @@ export const Route = createFileRoute('/stocks/')({
 
 function RouteComponent() {
 	const [page, setPage] = useState(1)
+	const [search, setSearch] = useState('')
 
 	const { data } = useQuery({
-		queryKey: ['stocks', page],
-		queryFn: () => getStocks(page),
+		queryKey: ['stocks', page, search],
+		queryFn: () => getStocks(page, search),
 		placeholderData: keepPreviousData,
 	})
 
@@ -37,6 +38,8 @@ function RouteComponent() {
 						type='text'
 						placeholder='Search'
 						className='input input-md'
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
 					/>
 
 					<Link to='/products/new'>
