@@ -152,7 +152,7 @@ function RouteComponent() {
 								colSpan={table.getAllColumns().length + 1}
 								className='m-1'>
 								<div className='flex w-full justify-between'>
-									<h1>Table footer</h1>
+									<h1></h1>
 									<div className='join mr-20'>
 										{data == null ? (
 											'Loading...'
