@@ -11,7 +11,7 @@ export const StockTableColumns = [
 		},
 	}),
 	columnHelper.accessor('product_Name', {
-		header: 'Product Id',
+		header: 'Product',
 		cell: (props) => {
 			return <p className='text-lg'>{props.getValue()}</p>
 		},
