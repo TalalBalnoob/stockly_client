@@ -1,69 +1,122 @@
-# React + TypeScript + Vite
+# 🧭 Stockly — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern inventory and order management dashboard built with **React**, **TypeScript**, and **TanStack Router**.  
+Designed for small businesses and sellers to easily track products, stock levels, and sales activity in real-time.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🖼️ Preview
 
-## Expanding the ESLint configuration
+![Home Page](./images/home.png)
+<br></br>
+![Products Page](./images/products.png)
+<br></br>
+![Orders Page](./images/orders.png)
+<br></br>
+![Orders Page](./images/newOrder.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- ⚛️ **React 19** + **TypeScript**
+- 🧭 **TanStack Router** — file-based routing
+- 🔁 **TanStack Query** — server state management
+- 🔁 **TanStack Table** — building tables management
+- 💾 **Axios** — API client
+- 💅 **TailwindCSS** + **DaisyUI** — modern styling
+- 🧩 **Jotai** — lightweight global state
+- 🧱 **Lucide Icons** — crisp SVG icons
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## ⚙️ Setup & Run
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/yourusername/stockly_client.git
+cd stockly_client
+````
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+# or
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 3️⃣ Run the development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### 4️⃣ Build for production
+
+```bash
+npm run build
+```
+
+---
+
+## 📦 Folder Structure
+
+```
+stockly_client/
+│
+├── src/
+│   ├── components/       # Shared UI components (Drawers, Tables, etc.)
+│   ├── routes/           # Pages and layouts (using TanStack Router)
+│   ├── services/
+│   │   ├── api/          # API calls (Axios)
+│   │   └── tables/       # TanStack Table column configs
+│   ├── state/            # Jotai atoms (global state)
+│   └── main.tsx          # Entry point
+│
+├── public/               # Static assets
+├── docs/images/          # Screenshots for README
+├── package.json
+└── vite.config.ts
+```
+
+---
+
+## 🔄 Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+VITE_API_URL=http://app_api_url/api
+```
+
+---
+
+## 🧰 Features
+
+✅ Product Management
+✅ Order Tracking
+✅ Stock Analytics Dashboard
+✅ Search and Filtering
+✅ Pagination and DataGrid Integration
+✅ Real-time UI Updates via React Query
+
+---
+
+## 🧑‍💻 Developer Notes
+
+- Uses **React Query** for efficient data fetching and caching.
+- Fully **typed** with TypeScript for safety and scalability.
+- Built using **Vite** for fast dev server and optimized builds.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+**Author:** Talal
+📧 Contact: [[talalbalnoob@gmail.com](mailto:talalbalnoob@gmail.com)]
